@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🎭 Mafia Game - Multiplayer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <!-- LANDING SCREEN -->
+    <div id="landingScreen" class="screen active">
+        <div class="container">
+            <h1 class="game-title">🎭 MAFIA GAME</h1>
+            <p class="subtitle">5 Rounds • Up to 20 Players • Bots Supported</p>
+            
+            <div class="card">
+                <input type="text" id="playerName" placeholder="Enter Your Name" maxlength="12">
+                <button onclick="createLobby()" class="btn btn-primary">🎮 Create Game</button>
+                <button onclick="showJoinScreen()" class="btn btn-secondary">🚪 Join Game</button>
+            </div>
+
+            <div id="joinScreen" class="hidden">
+                <input type="text" id="joinCode" placeholder="Enter 4-Digit Code" maxlength="4">
+                <button onclick="joinLobby()" class="btn btn-primary">Join</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOBBY SCREEN -->
+    <div id="lobbyScreen" class="screen">
+        <div class="container">
+            <div class="header">
+                <h2>Lobby: <span id="lobbyCode">----</span></h2>
+                <button onclick="copyCode()" class="btn-small">📋 Copy</button>
+            </div>
+
+            <div class="players-grid" id="playersGrid"></div>
+
+            <div class="lobby-controls">
+                <div class="round-counter">Round: <span id="currentRound">1</span>/5</div>
+                <div id="hostControls" class="hidden">
+                    <button onclick="addBot()" class="btn btn-secondary">🤖 Add Bot</button>
+                    <button onclick="startGame()" class="btn btn-primary">▶️ Start Game</button>
+                </div>
+                <button onclick="leaveLobby()" class="btn btn-danger">🚪 Leave</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- GAME SCREEN -->
+    <div id="gameScreen" class="screen">
+        <div class="container">
+            <!-- Header -->
+            <div class="game-header">
+                <div class="phase-indicator">
+                    <span id="phaseIcon">🌙</span>
+                    <span id="phaseText">NIGHT</span>
+                </div>
+                <div class="timer" id="timer">0:00</div>
+                <div class="round-display">Round <span id="gameRound">1</span>/5</div>
+            </div>
+
+            <!-- Role Card -->
+            <div class="role-card" id="roleCard">
+                <h3>Your Role</h3>
+                <div class="role-name" id="roleName">Villager</div>
+                <div class="role-desc" id="roleDesc">Find the Mafia!</div>
+            </div>
+
+            <!-- Action Area -->
+            <div id="actionArea" class="action-area">
+                <h3 id="actionTitle">Choose Your Target</h3>
+                <div id="actionButtons" class="action-buttons"></div>
+            </div>
+
+            <!-- Game Log -->
+            <div class="game-log">
+                <h4>📜 Game Events</h4>
+                <div id="gameLog"></div>
+            </div>
+
+            <!-- Alive Players -->
+            <div class="alive-players">
+                <h4>👥 Alive Players</h4>
+                <div id="alivePlayers"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RESULTS SCREEN -->
+    <div id="resultsScreen" class="screen">
+        <div class="container">
+            <h1 id="winnerText">🏆 VILLAGERS WIN!</h1>
+            
+            <div class="scoreboard" id="scoreboard"></div>
+
+            <div class="final-controls">
+                <button onclick="nextRound()" id="nextRoundBtn" class="btn btn-primary">Next Round ▶️</button>
+                <button onclick="returnToLobby()" class="btn btn-secondary">Back to Lobby</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOADING -->
+    <div id="loading" class="loading hidden">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    
+    <script>
+        // 🔥 PASTE YOUR FIREBASE CONFIG HERE
+        const firebaseConfig = {
+            apiKey: "AIzaSyDAnKB7m5ouIAwbCL_ZfG_94dMr22e7LMU",
+            authDomain: "mafia-5c6da.firebaseapp.com",
+            databaseURL: "https://mafia-5c6da-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "mafia-5c6da",
+            storageBucket: "mafia-5c6da.firebasestorage.app",
+            messagingSenderId: "156274228165",
+            appId: "1:156274228165:web:12c9fd0ff0f1111dc2e9ac"
+         };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.database();
+    </script>
+    
+    <script src="app.js"></script>
+</body>
+  </html>
